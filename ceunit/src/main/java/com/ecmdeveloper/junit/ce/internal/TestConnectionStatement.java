@@ -78,26 +78,35 @@ public class TestConnectionStatement extends Statement {
 	private void injectFolder(Field folderField) throws Exception {
 		TestFolder testFolder = folderField.getAnnotation(TestFolder.class);
 		TestFolderPathCreator pathCreator = new TestFolderPathCreator(testFolder, description, folderField.getName() );
-		Folder folder = getTestFolder(testFolder.objectStoreName(), pathCreator.getFolderPath() );
+		Folder folder = getTestFolder(testFolder.objectStoreName(), pathCreator.getFolderPath(), testFolder.className() );
 
 		folderField.setAccessible(true);
 		folderField.set( testConnection.getTarget(), folder );
 	}
 
-
-
-
-	private Folder getTestFolder(String objectStoreName, String path) {
+	private Folder getTestFolder(String objectStoreName, String path, String className) {
 		ObjectStore objectStore = testConnection.getObjectStore( objectStoreName );
 		TestFolderCreator testFolderCreator = new TestFolderCreator(objectStore);
-		Folder folder = testFolderCreator.create( path );
+		Folder folder = testFolderCreator.create( className, path );
 		return folder;
 	}
 
 
 	private Field getObjectStoreField() {
+		Class<?> testClass = description.getTestClass();
+		
 		Field objectStoreField = null;
-		for ( Field field : description.getTestClass().getDeclaredFields() ) {
+		do {
+			objectStoreField = getObjectStoreField(testClass);
+			testClass = testClass.getSuperclass();
+		} while (objectStoreField == null && testClass != null);
+		return objectStoreField;
+	}
+
+
+	private Field getObjectStoreField(Class<?> testClass) {
+		Field objectStoreField = null;
+		for ( Field field : testClass.getDeclaredFields() ) {
 			boolean staticField = Modifier.isStatic( field.getModifiers() );
 			if ( description.isTest() ^ staticField ) {
 				if ( field.isAnnotationPresent(TestObjectStore.class) ) {

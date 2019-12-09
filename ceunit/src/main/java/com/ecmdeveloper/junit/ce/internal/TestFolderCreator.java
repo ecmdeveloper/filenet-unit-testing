@@ -4,6 +4,7 @@
 package com.ecmdeveloper.junit.ce.internal;
 
 
+import com.filenet.api.constants.ClassNames;
 import com.filenet.api.constants.PropertyNames;
 import com.filenet.api.constants.RefreshMode;
 import com.filenet.api.core.Factory;
@@ -30,33 +31,36 @@ public class TestFolderCreator {
 		this.objectStore = objectStore;
 	}
 
-	public Folder create(String path) {
-		return create(path, false );
+	public Folder create(String className, String path) {
+		return create(className, path, false );
 	}
 	
-	public Folder create(String path, boolean usePropertyFilter) {
+	public Folder create(String className, String path, boolean usePropertyFilter) {
 		
 		try {
 			Folder folder = Factory.Folder.fetchInstance(objectStore, path, usePropertyFilter ? idFilter : null);
 			return folder;
 		} catch (EngineRuntimeException exception) {
 			if ( exception.getExceptionCode().equals(ExceptionCode.E_OBJECT_NOT_FOUND ) ) {
-				return createFolder(path, usePropertyFilter );
+				return createFolder(className, path, usePropertyFilter );
 			} else {
 				throw new RuntimeException(exception);
 			}
 		}
 	}
 
-	private Folder createFolder(String path, boolean usePropertyFilter ) {
+	private Folder createFolder(String className, String path, boolean usePropertyFilter ) {
 		int slashIndex = path.lastIndexOf("/");
 		if ( slashIndex >= 0) {
 			String parentPath = path.substring(0, slashIndex );
 			if ( parentPath.isEmpty() ) {
 				parentPath = "/";
 			}
-			Folder parentFolder = create(parentPath, true );
-			Folder subFolder = parentFolder.createSubFolder( path.substring(slashIndex+1) );
+			Folder parentFolder = create(ClassNames.FOLDER, parentPath, true );
+			
+			Folder subFolder = Factory.Folder.createInstance(objectStore, className);
+			subFolder.set_FolderName( path.substring(slashIndex+1) );
+			subFolder.set_Parent(parentFolder);
 			subFolder.save(RefreshMode.REFRESH, usePropertyFilter ? idFilter : null );
 			return subFolder;
 		} else {

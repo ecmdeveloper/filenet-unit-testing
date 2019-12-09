@@ -12,13 +12,12 @@
     <dependency>
     	<groupId>com.ibm.filenet</groupId>
     	<artifactId>jace</artifactId>
-    	<version>5.2.1</version>
+	 	<version>[5.2.1.0,)</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.12</version>
-      <scope>test</scope>
     </dependency>	
   </dependencies>
   <build>

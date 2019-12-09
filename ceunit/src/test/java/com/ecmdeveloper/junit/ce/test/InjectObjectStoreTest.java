@@ -26,7 +26,7 @@ public class InjectObjectStoreTest {
 	@Rule
 	public TestConnection testConnection = getConnection();
 
-	@TestObjectStore(name="P8ConfigObjectStore")
+	@TestObjectStore(name="OS")
 	private ObjectStore objectStore;
 	
 	private TestConnection getConnection() {
@@ -36,6 +36,6 @@ public class InjectObjectStoreTest {
 	@Test
 	public void testObjectStoreInjected() throws Exception {
 		assertNotNull("Is object store set?", objectStore);
-		assertEquals("P8ConfigObjectStore", objectStore.get_Name() );
+		assertEquals("OS", objectStore.get_Name() );
 	}
 }
