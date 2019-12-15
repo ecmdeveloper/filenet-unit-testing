@@ -1,6 +1,3 @@
-/**
- * Copyright (C) 2019 ECM Partners - All Rights Reserved
- */
 package com.ecmdeveloper.ceunit.jupiter;
 
 import java.util.Collections;

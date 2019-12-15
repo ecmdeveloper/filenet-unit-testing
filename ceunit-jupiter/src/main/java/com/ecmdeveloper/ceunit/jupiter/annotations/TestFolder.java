@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.ecmdeveloper.ceunit.jupiter.annotations;
 
 import java.lang.annotation.ElementType;
