@@ -46,13 +46,13 @@ public class TestConnectionStatement extends Statement {
 		
 		try {
 			connected = connect();
-			System.out.println( "Connected user '" + testConnection.getUsername() + "' for test " + getDescription() );
+			//System.out.println( "Connected user '" + testConnection.getUsername() + "' for test " + getDescription() );
 			injectObjectStore();
 			injectFolders();
 			base.evaluate();
 		} finally {
 			if ( connected ) {
-				System.out.println( "Disconnecting user '" + testConnection.getUsername() + "' for test " + getDescription() );
+				//System.out.println( "Disconnecting user '" + testConnection.getUsername() + "' for test " + getDescription() );
 				disconnect();
 			}
 		}

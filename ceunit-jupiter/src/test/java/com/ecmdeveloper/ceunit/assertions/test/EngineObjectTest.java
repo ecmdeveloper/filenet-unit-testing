@@ -2,6 +2,7 @@ package com.ecmdeveloper.ceunit.assertions.test;
 
 import static com.ecmdeveloper.ceunit.assertions.EngineObjectAssert.assertThat;
 import static com.ecmdeveloper.ceunit.assertions.PropertyConditionBuilder.property;
+import static org.junit.Assert.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,7 +13,6 @@ import com.ecmdeveloper.ceunit.jupiter.annotations.TestFolder;
 import com.ecmdeveloper.ceunit.jupiter.test.MyObjectStoreConnection;
 import com.filenet.api.constants.PropertyNames;
 import com.filenet.api.core.Folder;
-
 
 /**
  * @author Ricardo Belfor

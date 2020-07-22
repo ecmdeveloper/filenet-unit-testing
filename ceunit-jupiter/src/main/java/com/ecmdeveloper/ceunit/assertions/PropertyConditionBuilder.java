@@ -1,9 +1,12 @@
 package com.ecmdeveloper.ceunit.assertions;
 
+import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.assertj.core.api.Condition;
 
+import com.ecmdeveloper.ceunit.jupiter.internal.StreamUtils;
 import com.filenet.api.constants.PropertyState;
 import com.filenet.api.core.EngineObject;
 import com.filenet.api.property.Property;
@@ -30,6 +33,16 @@ public class PropertyConditionBuilder {
 		return withValue(expectedValue, extractor);
 	}
 
+	public Condition<EngineObject> withValues(final String... expectedValue) {
+		
+		Function<EngineObject,List<String>> extractor = engineObject -> 
+		StreamUtils.asStream( engineObject.getProperties().getStringListValue(this.name) )
+			.collect(Collectors.toList() );
+			
+//		return withValue(expectedValue, extractor);
+		return null;
+	}
+	
 	public Condition<EngineObject> withValue(final Boolean expectedValue) {
 		Function<EngineObject,Boolean> extractor = engineObject -> engineObject.getProperties().getBooleanValue(this.name);
 		return withValue(expectedValue, extractor);
